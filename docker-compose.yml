@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  app:
+    image: guestimator
+    networks:
+      - back-tier
+    depends_on:
+      - db
+    environment:
+      - DB_ADDR=db:5432
+    command: go run main.go
+  db:
+    image: postgres:9.6
+    container_name: db
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - back-tier
+
+volumes:
+  db-data:
+
+networks:
+  back-tier:
+
